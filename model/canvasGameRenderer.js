@@ -23,12 +23,9 @@ class CanvasGameRenderer {
             blob => {
                 this.context.fillStyle = blob.colour
                 let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.height);
-                // this.context.fillRect(, res.y, res.width, res.height)
-
                 this.context.beginPath();
                 this.context.arc(res.x, res.y, res.width/2, 0, 2 * Math.PI);
-                this.context.stroke();
-
+                this.context.fill();
             }
         )
     }
@@ -36,8 +33,8 @@ class CanvasGameRenderer {
     CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth, canvasHeight) {
         let squareSize = canvasWidth / gridWidth
         return {
-            x: (gridPositionX - 1) * (squareSize),
-            y: (gridPositionY - 1) * (squareSize),
+            x: (gridPositionX - 1) * (squareSize) + (squareSize/2),
+            y: (gridPositionY - 1) * (squareSize) + (squareSize/2),
             width: 50,
             height: 50
         }
