@@ -1,5 +1,5 @@
 {
-  "name": "Map Battle",
+  "name": "map-battle",
   "version": "0.1.0",
   "description": "Assist leaders runningt the compass bearing and grid reference learning game.",
   "main": "main.js",

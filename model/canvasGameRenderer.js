@@ -23,7 +23,12 @@ class CanvasGameRenderer {
             blob => {
                 this.context.fillStyle = blob.colour
                 let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.height);
-                this.context.fillRect(res.x, res.y, res.width, res.height)
+                // this.context.fillRect(, res.y, res.width, res.height)
+
+                this.context.beginPath();
+                this.context.arc(res.x, res.y, res.width/2, 0, 2 * Math.PI);
+                this.context.stroke();
+
             }
         )
     }
