@@ -1,13 +1,13 @@
 {
-  "name": "super-rock-drop",
+  "name": "Map Battle",
   "version": "0.1.0",
-  "description": "A Super Foul Eggs clone and Electron learning exercise",
+  "description": "Assist leaders runningt the compass bearing and grid reference learning game.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "test": "mocha"
   },
-  "repository": "github:andrew-m/super-rock-drop",
+  "repository": "github:andrew-m/map-battle",
   "keywords": [
     "game",
     "learning"
