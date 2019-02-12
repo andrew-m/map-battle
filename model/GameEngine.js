@@ -1,198 +1,67 @@
 //external events are:
-//clock ticks
+//Turn submissions
+// - firing angles
+// - movements
 //keyboard presses
-//network events arriving.
 
 //Which result in changes to the game state
-//such as blobs moving down
-//or being created
-//or moving side to side
-//or disappearing
+//Such as angles/collisions being worked out
+// With lives lost if hit.
+//or blobs moving
 
-//on loop render the game
-//lets start with clock tick events.
-//they move blobs down
-//unless blob or floor below them.
+//No loop really needed, but could detect keyboard events, as more fun than using a form.
 
 //Game engine does NOT contain game state.
 //It acts upon an event, and a game state, to create a new game state.
+//Still sounds about right
 
 //Immutable or mutable game state? I think mutable will be fine.
 
-//Todo get rid of any concept of animation frames in Game Engine - they're not game engine events!
-
+function getCurrentBlob(gameState) {
+    return gameState.Blobs[gameState.currentTurnIndex];
+}
 
 function keyLeft(gameState) {
-    return ifPlayerControlled(moveLeftIfNotAtEdge, gameState)
-}
-function keyRight(gameState) {
-    return ifPlayerControlled(moveRightIfNotAtEdge, gameState);
-}
-function keyDown(gameState) {
-    return ifPlayerControlled(moveDown, gameState);
-}
-function keyUp(gameState) {
-    return ifPlayerControlled(moveUp, gameState);
-}
-
-
-function ifPlayerControlled(func, gameState) {
-    gameState.Blobs = gameState.Blobs.map(blob => {
-        if (blob.isPlayerControlled) {
-            blob = func(blob, gameState);
-        }
-        return blob
-    })
+    (moveLeft(getCurrentBlob(gameState)))
     return gameState
 }
 
-function moveLeftIfNotAtEdge(blob, gameState) {
-    function wouldGoOffTheLeftEdge(blob1) {
-        return blob1.x <= 1;
-    }
-
-    function wouldHitOtherPlayerControlledBlobThatWouldGoOffTheEdge(blob2, gameState){
-        let blobsToLeftOf = blobToleftof(blob2, gameState);
-        return (blobsToLeftOf.length >= 1 && wouldGoOffTheLeftEdge(blobsToLeftOf[0]))
-    }
-
-    function blobToleftof(blob, gameState) {
-        return gameState.Blobs.filter(b => b.x === (blob.x -1) && b.y === blob.y && blob.isPlayerControlled)
-    }
-
-    if (wouldGoOffTheLeftEdge(blob) || wouldHitOtherPlayerControlledBlobThatWouldGoOffTheEdge(blob, gameState)) {
-        return blob
-    } else {
-        blob.x -= 1;
-        return blob
-    }
+function keyRight(gameState) {
+    (moveRight(getCurrentBlob(gameState)))
+    return gameState
 }
-
-function moveRightIfNotAtEdge(blob, gameState) {
-    function wouldGoOffTheRightEdge(blob1) {
-        return blob1.x >= 6;
-    }
-
-    function wouldHitOtherPlayerControlledBlobThatWouldGoOffTheEdge(blob2, gameState){
-        let blobsToRightOf = blobToRightOf(blob2, gameState);
-        return (blobsToRightOf.length >= 1 && wouldGoOffTheRightEdge(blobsToRightOf[0]))
-    }
-
-    function blobToRightOf(blob, gameState) {
-        return gameState.Blobs.filter(b => b.x === (blob.x +1) && b.y === blob.y && blob.isPlayerControlled)
-    }
-
-    if (wouldGoOffTheRightEdge(blob) || wouldHitOtherPlayerControlledBlobThatWouldGoOffTheEdge(blob, gameState)) {
-        return blob
-    } else {
-        blob.x += 1;
-        return blob
-    }
+function keyDown(gameState) {
+    (moveDown(getCurrentBlob(gameState)))
+    return gameState
+}
+function keyUp(gameState) {
+    (moveUp(getCurrentBlob(gameState)))
+    return gameState
 }
 
 function moveUp(blob) {
-    blob.y -= 1 //coords start at bottom left apparently. That's a touch confusing.
+    blob.y += 1 //OS grid references start in South West corner.
     return blob
 }
 
 function moveDown(blob) {
-    blob.y += 1
+    blob.y -= 1
     return blob
 }
 
-
-//todo this isn't quite right.
-//moves blobs a max of one square (probably). Requires multiple calls to complete,
-//by which time many blobs might have moved two squares.
-//each blob should move one square only
-//but each blob _should_ move - even (especially) if above another square that moved.
-// No. Things that fall, fall all the way. This is why we need to seperate the "tick" from everything else.
-// Player operated blobs don't fall, but they do tick down.
-// Animation (slow falling) is not a Game engine concern, events would pause during that time.
-// Although other concerns can store state in the gameState - such as the difference between "target" location
-// and current location during an animation
-
-//Question - game engine initiated events (eg, player controlled blob hits the bottom - causes pops and then a
-// new player entity... Is that all managed from the same origin event (keyboard, clock tick)
-
-//It does feel like those are derived events, triggered by a smaller subset of fundamental events.
-//clock tick, keyboard press. Rocks arrive. Who decides what colour next player blobs are?
-// Would it keep things simple if to start with, gameEngine asks for them? Provided with a random-blob selector.
-// could be implemented locally for now, and some sort of network one later. Which would solve a problem we don't
-// currently have (people cheating in network games by seeing the backlog of blobs further)
-
-/**
- * @return {boolean}
- */
-function ProcessAnimationFrame(gameState) {
-    let mapResultsArray = gameState.Blobs.map(MoveDownOneSpaceIfShouldMoveDown);
-    let somethingMoved = mapResultsArray.some(result => result.didMove)
-
-    gameState.Blobs = mapResultsArray.map(r => r.Blob)
-    return {moved: somethingMoved, gameState: gameState};
+function moveLeft(blob) {
+    blob.x -= 1
+    return blob
 }
 
-function MoveDownOneSpaceIfShouldMoveDown(blob, index, array) {
-    let shouldStayStill =
-        IsAtBottom(blob)
-        || HasBlobDirectlyBelow(blob, index, array)
-        || blob.isPlayerControlled;
-
-    if (shouldStayStill) {
-        return {Blob: blob, didMove: false} ///that won't work in a map - unless I map it again. Fine!
-    } else {
-        return {Blob: MoveBlobDown(blob), didMove: true}
-    }
-}
-
-function MoveBlobDown(blob) {
-    blob.y += 1;
-    return blob;
-}
-
-function moveBlobsThatShouldFallToRestingPosition(gameState) {
-    let result = ProcessAnimationFrame(gameState);
-    if (result.moved) {
-        return moveBlobsThatShouldFallToRestingPosition(result.gameState)
-    } else {
-        return result.gameState
-    }
-}
-
-/**
- * @return {boolean}
- */
-function IsAtBottom(blob) {
-    return (blob.y === 12)
-}
-
-function isInSameColumn(b, blob) {
-    return b.x === blob.x;
-}
-
-function isInRowBelow(b, blob) {
-    return b.y === (blob.y + 1);
-}
-
-/**
- * @return {boolean}
- */
-function HasBlobDirectlyBelow(blob, i, allBlobs) {
-    return allBlobs.filter(b => b !== blob) //all the blobs except the blob in question
-        .some(b =>
-            isInSameColumn(b, blob) //same column
-            &&
-            isInRowBelow(b, blob) //one lower down
-        )
+function moveRight(blob) {
+    blob.x += 1
+    return blob
 }
 
 module.exports = {
-    // runFramesUntilNothingElseChanges,
-    HasBlobDirectlyBelow,
-    ProcessAnimationFrame,
     keyLeft,
     keyRight,
     keyDown,
-    keyUp,
-    moveBlobsThatShouldFallToRestingPosition
+    keyUp
 }

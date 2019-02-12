@@ -36,7 +36,8 @@ class CanvasGameRenderer {
             x: (gridPositionX - 1) * (squareSize) + (squareSize/2),
             y: (gridPositionY - 1) * (squareSize) + (squareSize/2),
             width: 50,
-            height: 50
+            height: 50,
+            radius: 25,
         }
     }
 }

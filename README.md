@@ -27,6 +27,7 @@ npm start
 ##Resources
 A good guide to [reading grid squares and grid references from Ordnance Survey](https://getoutside.ordnancesurvey.co.uk/guides/beginners-guide-to-grid-references/)
 
+Another OS guide, this time to [using a compass](https://getoutside.ordnancesurvey.co.uk/guides/beginners-guide-to-using-a-compass/)
 ```
 Copyright 2019 Andrew Maddison
 

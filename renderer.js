@@ -19,17 +19,13 @@ const setup = function (doc) {
     canvasGameRenderer.Setup();
 
     let newBlobArray = [
-        new Blob(1, 4, '#ff0000'),
-        new Blob(6, 12, '#00ff00'),
-        new Blob(3, 5, '#ff00ff'),
-        new Blob(3, 6, '#0000ff'),
-        new Blob(3, 1, '#AAFFAA', true),
-        new Blob(4, 1, '#AAAAFF', true)];
+        new Blob(1, 4, '#ff0000')];
     // let newBlobArray = [new Blob(1, 9, "#AAFFAA", true), new Blob(2, 9, "#FFAAAA", true)];
 
-    gameState = new GameState(newBlobArray
-    )
+    gameState = new GameState(newBlobArray)
+    console.log("got this far 1")
     canvasGameRenderer.RenderGameState(gameState)
+    console.log("got this far 2")
 
     let keys = [
         new keyRegistration("KeyZ", () => canvasGameRenderer.RenderGameState(GameEngine.keyLeft(gameState))),
@@ -51,7 +47,6 @@ let timeAtLastTick = 0
 
 function AnimationLoop(timestamp, gameRenderer, gameState) {
     if (timestamp - timeAtLastTick > 1000) {
-        gameState = GameEngine.ProcessAnimationFrame(gameState).gameState
         gameRenderer.RenderGameState(gameState)
         timeAtLastTick = timestamp
     }
