@@ -23,12 +23,12 @@ describe('Game Renderer for HTML canvas', function() {
         //x, y, width, height
         //Screen references from top left corner
         expect(result.x).to.equal(25) //half a square from the left - because circles are rendered from the center
-        expect(result.y).to.equal(25 + (11*50))
+        expect(result.y).to.equal(575)
         expect(result.width).to.equal(50)
         expect(result.height).to.equal(50)
     })
 
-    it('Should calculate canvas position when element is in bottom right corner', function (){
+    it('Should calculate canvas position when element is in top right corner', function (){
         let canvasWidth = 300;
         let gridWidth = 6;
         let canvasHeight = 600;
@@ -38,8 +38,8 @@ describe('Game Renderer for HTML canvas', function() {
         )
 
         //x, y, width, height
-        expect(result.x).to.equal(250)
-        expect(result.y).to.equal(550)
+        expect(result.x).to.equal(275)
+        expect(result.y).to.equal(25)
         expect(result.width).to.equal(50)
         expect(result.height).to.equal(50)
     })

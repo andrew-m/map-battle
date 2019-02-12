@@ -19,8 +19,7 @@ const setup = function (doc) {
     canvasGameRenderer.Setup();
 
     let newBlobArray = [
-        new Blob(1, 4, '#ff0000')];
-    // let newBlobArray = [new Blob(1, 9, "#AAFFAA", true), new Blob(2, 9, "#FFAAAA", true)];
+        new Blob(6, 12, '#ff0000', true)];
 
     gameState = new GameState(newBlobArray)
     console.log("got this far 1")
