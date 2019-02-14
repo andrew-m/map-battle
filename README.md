@@ -6,7 +6,10 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 
 #### dev plan/steps/progress
 1. Keep track of team locations on the grid - and display them for the leader coordinating the game.
-  - Should be in OS grid references, from South West corner, Eastings, then Northings.
+   - Should be in OS grid references, from South West corner, Eastings, then Northings.
+   1. Start with fixed number of teams (4), and fixed starting locations (corners).
+   2. Start with fixed sized grid.
+   3. Allow teams to set start locations
 2. Allow teams to move, in 4 figure version, adjacent or diagonal squares.
 3. Configure size of grid, and starting coordinates.
 3. Allow teams to fire at a bearing. Draw this line on the display
