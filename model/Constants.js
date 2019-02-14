@@ -1,6 +1,6 @@
 
 const grid = {
-    width:6,
+    width:10,
     height:12
 }
 
