@@ -62,6 +62,9 @@ class CanvasGameRenderer {
                 this.context.beginPath();
                 this.context.arc(res.x, res.y, res.width/2, 0, 2 * Math.PI);
                 this.context.fill();
+                this.context.strokeStyle = "#303030";
+                this.context.lineWidth = 2
+                this.context.stroke();
             }
         )
     }
@@ -80,6 +83,7 @@ class CanvasGameRenderer {
 
 function drawGridLine(ctx, startx, starty, endx, endy) {
     ctx.strokeStyle = "#50E0f0"
+    ctx.lineWidth = 1
     ctx.beginPath()
     ctx.moveTo(startx, starty)
     ctx.lineTo(endx, endy)
