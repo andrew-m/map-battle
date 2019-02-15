@@ -19,7 +19,7 @@ const setup = function (doc) {
     canvasGameRenderer.Setup();
 
     let newBlobArray = [
-        new Blob(10, 12, '#ff0000', true),
+        new Blob(10, 12, '#0000ff', true),
         new Blob(1, 12, '#ffff00', true),
         new Blob(10, 1, '#ff00ff', true),
         new Blob(1, 1, '#00ff00', true),

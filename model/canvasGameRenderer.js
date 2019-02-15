@@ -1,4 +1,13 @@
 var gameModel = require('./Constants');
+//
+// function drawGridLine (context, startx, starty, endx, endy) {
+//      context.moveTo(startx, starty)
+//     context.beginPath()
+//     context.strokeStyle = "#50E0f0"
+//     context.lineTo(endx, endy)
+//     context.stroke()
+//     return context;
+// }
 
 class CanvasGameRenderer {
     constructor (canvas) {
@@ -11,11 +20,38 @@ class CanvasGameRenderer {
         this.gridWidth = gameModel.grid.width;
         this.gridHeight = gameModel.grid.height;
         this.clearWholeGameArea()
+
+        //todo do this calculated from canvas and grid dimensions.
     }
+
     clearWholeGameArea() {
         this.context.fillStyle = "#ffffff"
         this.context.fillRect(0,0, this.canvas.width, this.canvas.height)
+
+        let startx = 50;
+        let starty = 50;
+        let endx = 200;
+        let endy = 200;
+
+        var i =0
+        var squareSize = this.width / this.gridWidth
+
+        for (i = 0; i < this.gridWidth; i++) {
+            startx = i * squareSize
+            endx = startx
+            starty = 0
+            endy = this.height
+            drawGridLine(this.context, startx, starty, endx, endy);
+        }
+        for (i = 0; i < this.gridHeight; i++) {
+            starty = i * squareSize
+            endy = starty
+            startx = 0
+            endx = this.width
+            drawGridLine(this.context, startx, starty, endx, endy);
+        }
     }
+
 
     RenderGameState(gameState){
         this.clearWholeGameArea()
@@ -42,4 +78,12 @@ class CanvasGameRenderer {
     }
 }
 
-module.exports = { CanvasGameRenderer }
+function drawGridLine(ctx, startx, starty, endx, endy) {
+    ctx.strokeStyle = "#50E0f0"
+    ctx.beginPath()
+    ctx.moveTo(startx, starty)
+    ctx.lineTo(endx, endy)
+    ctx.stroke()
+}
+
+module.exports = {  CanvasGameRenderer }
