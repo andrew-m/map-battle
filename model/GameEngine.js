@@ -39,6 +39,14 @@ function keyUp(gameState) {
     return gameState
 }
 
+function nextPlayer (gameState) {
+    gameState.currentTurnIndex += 1
+    if (gameState.currentTurnIndex >= gameState.Blobs.length) {
+        gameState.currentTurnIndex = 0
+    }
+    return gameState
+}
+
 function moveUp(blob) {
     blob.y += 1 //OS grid references start in South West corner.
     return blob
@@ -63,5 +71,6 @@ module.exports = {
     keyLeft,
     keyRight,
     keyDown,
-    keyUp
+    keyUp,
+    nextPlayer
 }

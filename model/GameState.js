@@ -1,7 +1,7 @@
 class GameState {
-    constructor(blobs = []) {
+    constructor(blobs = [], currentTurnIndex = 0) {
         this.Blobs = blobs
-        this.currentTurnIndex = 0
+        this.currentTurnIndex = currentTurnIndex
     }
 }
 

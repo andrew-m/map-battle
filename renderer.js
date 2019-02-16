@@ -42,6 +42,8 @@ const setup = function (doc) {
     doc.getElementById("right-btn").onclick = () => canvasGameRenderer.RenderGameState(GameEngine.keyRight(gameState))
     doc.getElementById("down-btn").onclick = () => canvasGameRenderer.RenderGameState(GameEngine.keyDown(gameState))
 
+    doc.getElementById("finish-btn").onclick = () => canvasGameRenderer.RenderGameState(GameEngine.nextPlayer(gameState))
+
     let ki = new KeyboardInput(keys);
 
     window.addEventListener("keydown", (e) => ki.keyDown(e), false);
