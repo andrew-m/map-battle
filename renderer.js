@@ -31,10 +31,10 @@ const setup = function (doc) {
     console.log("got this far 2")
 
     let keys = [
-        new keyRegistration("KeyZ", () => canvasGameRenderer.RenderGameState(GameEngine.keyLeft(gameState))),
-        new keyRegistration("KeyX", () => canvasGameRenderer.RenderGameState(GameEngine.keyRight(gameState))),
-        new keyRegistration("Period", () => canvasGameRenderer.RenderGameState(GameEngine.keyDown(gameState))),
-        new keyRegistration("Semicolon", () => canvasGameRenderer.RenderGameState(GameEngine.keyUp(gameState)))
+        new keyRegistration("ArrowLeft", () => canvasGameRenderer.RenderGameState(GameEngine.keyLeft(gameState))),
+        new keyRegistration("ArrowRight", () => canvasGameRenderer.RenderGameState(GameEngine.keyRight(gameState))),
+        new keyRegistration("ArrowDown", () => canvasGameRenderer.RenderGameState(GameEngine.keyDown(gameState))),
+        new keyRegistration("ArrowUp", () => canvasGameRenderer.RenderGameState(GameEngine.keyUp(gameState)))
     ]
 
     let ki = new KeyboardInput(keys);
@@ -44,7 +44,6 @@ const setup = function (doc) {
 
     loop();
 }
-
 
 let timeAtLastTick = 0
 
