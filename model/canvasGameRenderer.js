@@ -56,7 +56,7 @@ class CanvasGameRenderer {
     RenderGameState(gameState){
         this.clearWholeGameArea()
         gameState.Blobs.forEach(
-            blob => {
+            (blob, i) => {
                 this.context.fillStyle = blob.colour
                 let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.height);
                 this.context.beginPath();
@@ -65,9 +65,17 @@ class CanvasGameRenderer {
                 this.context.strokeStyle = "#303030";
                 this.context.lineWidth = 2
                 this.context.stroke();
+
+                this.context.fillStyle = findContrastingTextColor(blob.colour)
+                this.context.font = "30px Arial"
+                this.context.textAlign = 'center';
+                this.context.textBaseline = 'middle';
+                this.context.fillText(i, res.x , res.y, 50)
+
             }
         )
     }
+
 
     CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth, canvasHeight) {
         let squareSize = canvasWidth / gridWidth
@@ -79,6 +87,14 @@ class CanvasGameRenderer {
             radius: 25,
         }
     }
+}
+
+
+function findContrastingTextColor(color){
+    //source http://trendct.org/2016/01/22/how-to-choose-a-label-color-to-contrast-with-background/
+    //could be better (move from this "half the hex total" algo to the w3c recommended brightness and
+    // threshold described in the example. Would need to translate their rgb code to accept hex.
+    return (color.replace('#','0x')) > (0xffffff/2) ? '#000000' : '#ffffff'
 }
 
 function drawGridLine(ctx, startx, starty, endx, endy) {
