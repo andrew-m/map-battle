@@ -17,8 +17,7 @@ describe('Game Renderer for HTML canvas', function() {
         // OS references from bottom left corner.
 
         let result = new CanvasGameRenderer().CalculatePositionWidthAndHeight(
-            1,1,gridWidth,gridHeight,canvasWidth,canvasHeight
-        )
+            1,1,gridWidth,gridHeight,canvasWidth)
 
         //x, y, width, height
         //Screen references from top left corner
@@ -34,8 +33,7 @@ describe('Game Renderer for HTML canvas', function() {
         let canvasHeight = 600;
         let gridHeight = 12;
         let result = new CanvasGameRenderer().CalculatePositionWidthAndHeight(
-            6,12,gridWidth,gridHeight,canvasWidth,canvasHeight
-        )
+            6,12,gridWidth,gridHeight,canvasWidth)
 
         //x, y, width, height
         expect(result.x).to.equal(275)

@@ -1,13 +1,4 @@
 var gameModel = require('./Constants');
-//
-// function drawGridLine (context, startx, starty, endx, endy) {
-//      context.moveTo(startx, starty)
-//     context.beginPath()
-//     context.strokeStyle = "#50E0f0"
-//     context.lineTo(endx, endy)
-//     context.stroke()
-//     return context;
-// }
 
 class CanvasGameRenderer {
     constructor (canvas) {
@@ -25,6 +16,7 @@ class CanvasGameRenderer {
     }
 
     clearWholeGameArea() {
+        let i;
         this.context.fillStyle = "#ffffff"
         this.context.fillRect(0,0, this.canvas.width, this.canvas.height)
 
@@ -33,10 +25,9 @@ class CanvasGameRenderer {
         let endx = 200;
         let endy = 200;
 
-        var i =0
         var squareSize = this.width / this.gridWidth
 
-        for (i = 0; i < this.gridWidth; i++) {
+        for (let i = 0; i < this.gridWidth; i++) {
             startx = i * squareSize
             endx = startx
             starty = 0
@@ -58,7 +49,7 @@ class CanvasGameRenderer {
         gameState.Blobs.forEach(
             (blob, i) => {
                 this.context.fillStyle = blob.colour
-                let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.height);
+                let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width);
                 this.context.beginPath();
                 this.context.arc(res.x, res.y, res.width/2, 0, 2 * Math.PI);
                 this.context.fill();
@@ -76,8 +67,7 @@ class CanvasGameRenderer {
         )
     }
 
-
-    CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth, canvasHeight) {
+    CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth) {
         let squareSize = canvasWidth / gridWidth
         return {
             x: (gridPositionX - 1) * (squareSize) + (squareSize/2),
@@ -88,7 +78,6 @@ class CanvasGameRenderer {
         }
     }
 }
-
 
 function findContrastingTextColor(color){
     //source http://trendct.org/2016/01/22/how-to-choose-a-label-color-to-contrast-with-background/

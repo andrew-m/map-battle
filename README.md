@@ -12,6 +12,7 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 ✓* Need to capture inputs in a nice way, at setup time, or at the end of turns.
 ✓2. Allow teams to move, in 4 figure version, adjacent or diagonal squares.
 3. Indicate which team is current turn.
+3. Indicate location at start of term (ie - how far has it moved).
 3. Allow teams to set start locations
 3. Configure size of grid, and offset (ie, non zero corner coordinates)
 3. Allow teams to fire at a bearing. Draw this line on the display

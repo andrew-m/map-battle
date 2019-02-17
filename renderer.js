@@ -8,6 +8,14 @@ let keyRegistration = require("./model/KeyboardInput.js").keyRegistration
 let gameState
 let canvasGameRenderer
 
+function finishButtonFunction(updateCurrentTeamDiv, doc) {
+    return () => {
+        gameState = GameEngine.nextPlayer(gameState);
+        updateCurrentTeamDiv(doc, gameState);
+        canvasGameRenderer.RenderGameState(gameState);
+    };
+}
+
 const setup = function (doc) {
     if (doc === null || doc === undefined) {
         console.log("doc is null :(");
@@ -26,16 +34,15 @@ const setup = function (doc) {
     ];
 
     gameState = new GameState(newBlobArray)
-    console.log("got this far 1")
     canvasGameRenderer.RenderGameState(gameState)
-    console.log("got this far 2")
+    updateCurrentTeamDiv(doc, gameState)
 
     let keys = [
         new keyRegistration("ArrowLeft", () => canvasGameRenderer.RenderGameState(GameEngine.keyLeft(gameState))),
         new keyRegistration("ArrowRight", () => canvasGameRenderer.RenderGameState(GameEngine.keyRight(gameState))),
         new keyRegistration("ArrowDown", () => canvasGameRenderer.RenderGameState(GameEngine.keyDown(gameState))),
         new keyRegistration("ArrowUp", () => canvasGameRenderer.RenderGameState(GameEngine.keyUp(gameState))),
-        new keyRegistration("Space", () => canvasGameRenderer.RenderGameState(GameEngine.nextPlayer(gameState)))
+        new keyRegistration("Space", finishButtonFunction(updateCurrentTeamDiv, doc))
     ]
 
     doc.getElementById("up-btn").onclick = () => canvasGameRenderer.RenderGameState(GameEngine.keyUp(gameState))
@@ -43,7 +50,11 @@ const setup = function (doc) {
     doc.getElementById("right-btn").onclick = () => canvasGameRenderer.RenderGameState(GameEngine.keyRight(gameState))
     doc.getElementById("down-btn").onclick = () => canvasGameRenderer.RenderGameState(GameEngine.keyDown(gameState))
 
-    doc.getElementById("finish-btn").onclick = () => canvasGameRenderer.RenderGameState(GameEngine.nextPlayer(gameState))
+    function updateCurrentTeamDiv(doc1, gs) {
+        doc1.getElementById("current-team").innerHTML = "Current team: " + gs.currentTurnIndex
+    }
+
+    doc.getElementById("finish-btn").onclick = finishButtonFunction(updateCurrentTeamDiv, doc)
 
     let ki = new KeyboardInput(keys);
 
