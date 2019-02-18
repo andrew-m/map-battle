@@ -2,7 +2,6 @@ let Blob = require ('./model/Blob.js').Blob;
 let GameState = require('./model/GameState.js').GameState;
 const CanvasGameRenderer = require('./model/canvasGameRenderer').CanvasGameRenderer;
 let GameEngine = require('./model/GameEngine');
-// let GameEngineController = require('./model/GameEngineController.js');
 let KeyboardInput = require("./model/KeyboardInput.js").KeyboardInput
 let keyRegistration = require("./model/KeyboardInput.js").keyRegistration
 let gameState
@@ -60,23 +59,6 @@ const setup = function (doc) {
 
     window.addEventListener("keydown", (e) => ki.keyDown(e), false);
     window.addEventListener("keyup", (e) => ki.keyUp(e), false);
-
-    loop();
-}
-
-let timeAtLastTick = 0
-
-function AnimationLoop(timestamp, gameRenderer, gameState) {
-    if (timestamp - timeAtLastTick > 1000) {
-        gameRenderer.RenderGameState(gameState)
-        timeAtLastTick = timestamp
-    }
-    return gameState
-}
-
-function loop (timestamp) {
-    gameState = AnimationLoop(timestamp, canvasGameRenderer, gameState)
-    window.requestAnimationFrame(loop)
 }
 
 module.exports = {
