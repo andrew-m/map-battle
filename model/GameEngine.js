@@ -40,6 +40,9 @@ function keyUp(gameState) {
 }
 
 function nextPlayer (gameState) {
+    var currentBlob = getCurrentBlob(gameState)
+    currentBlob.oldx = currentBlob.x
+    currentBlob.oldy = currentBlob.y
     gameState.currentTurnIndex += 1
     if (gameState.currentTurnIndex >= gameState.Blobs.length) {
         gameState.currentTurnIndex = 0

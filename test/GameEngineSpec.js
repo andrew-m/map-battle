@@ -39,4 +39,19 @@ describe('On Keyboard Events', function (){
         expect(gameState.Blobs[0].x).to.equal(2)
         expect(gameState.Blobs[1].x).to.equal(3)
     })
+
+    it('currentPlayer old positions should be updated at end of turn', function (){
+        let newBlobArray = [new Blob(3, 3, "#AAFFAA"), new Blob(3,6)]
+        let gameState = new GameState(newBlobArray)
+        gameState = gameEngine.keyLeft(gameState)
+
+        expect(gameState.Blobs[0].oldx).to.equal(3)
+        expect(gameState.Blobs[0].oldy).to.equal(3)
+        expect(gameState.Blobs[1].oldx).to.equal(3)
+        expect(gameState.Blobs[1].oldy).to.equal(6)
+
+        gameState = gameEngine.nextPlayer(gameState)
+        expect(gameState.Blobs[0].oldx).to.equal(2)
+        expect(gameState.Blobs[0].oldy).to.equal(3)
+    })
 })

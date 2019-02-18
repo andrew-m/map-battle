@@ -51,9 +51,10 @@ class CanvasGameRenderer {
             let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width);
 
             if (gameState.currentTurnIndex === i) {
-                this.context.fillStyle = "#000000"
+                var oldPositionRes = this.CalculatePositionWidthAndHeight(blob.oldx, blob.oldy, this.gridWidth, this.gridHeight, this.width);
+                this.context.fillStyle = "#303050"
                 let squareSize = this.width / this.gridWidth
-                this.context.fillRect(res.x - squareSize/2, res.y - squareSize/2, squareSize, squareSize)
+                this.context.fillRect(oldPositionRes.x - squareSize/2, oldPositionRes.y - squareSize/2, squareSize, squareSize)
             }
             this.context.fillStyle = blob.colour
             this.context.beginPath();
