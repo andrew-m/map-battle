@@ -43,28 +43,33 @@ class CanvasGameRenderer {
         }
     }
 
-
     RenderGameState(gameState){
         this.clearWholeGameArea()
-        gameState.Blobs.forEach(
-            (blob, i) => {
-                this.context.fillStyle = blob.colour
-                let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width);
-                this.context.beginPath();
-                this.context.arc(res.x, res.y, res.width/2, 0, 2 * Math.PI);
-                this.context.fill();
-                this.context.strokeStyle = "#303030";
-                this.context.lineWidth = 2
-                this.context.stroke();
+        for (var i = 0; i < gameState.Blobs.length; i++) {
+            var blob = gameState.Blobs[i]
 
-                this.context.fillStyle = findContrastingTextColor(blob.colour)
-                this.context.font = "30px Arial"
-                this.context.textAlign = 'center';
-                this.context.textBaseline = 'middle';
-                this.context.fillText(i, res.x , res.y, 50)
+            let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width);
 
+            if (gameState.currentTurnIndex === i) {
+                this.context.fillStyle = "#000000"
+                let squareSize = this.width / this.gridWidth
+                this.context.fillRect(res.x - squareSize/2, res.y - squareSize/2, squareSize, squareSize)
             }
-        )
+            this.context.fillStyle = blob.colour
+            this.context.beginPath();
+            this.context.arc(res.x, res.y, res.width / 2, 0, 2 * Math.PI);
+            this.context.fill();
+            this.context.strokeStyle = "#303030";
+            this.context.lineWidth = 2
+            this.context.stroke();
+
+            this.context.fillStyle = findContrastingTextColor(blob.colour)
+            this.context.font = "30px Arial"
+            this.context.textAlign = 'center';
+            this.context.textBaseline = 'middle';
+            this.context.fillText(i, res.x, res.y, 50)
+        }
+
     }
 
     CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth) {
