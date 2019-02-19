@@ -19,6 +19,42 @@ describe('On Keyboard Events', function (){
         expect(gameState.Blobs[1].x).to.equal(3)
     })
 
+    it('Should not move current player if would leave the map left', function (){
+        let newBlobArray = [new Blob(1, 1, "#AAFFAA")]
+        let gameState = new GameState(newBlobArray, 2, 2)
+        gameState = gameEngine.keyLeft(gameState)
+
+        expect(gameState.Blobs[0].x).to.equal(1)
+        expect(gameState.Blobs[0].y).to.equal(1)
+    })
+
+    it('Should not move current player if would leave the map right', function (){
+        let newBlobArray = [new Blob(2, 1, "#AAFFAA")]
+        let gameState = new GameState(newBlobArray, 2, 2)
+        gameState = gameEngine.keyRight(gameState)
+
+        expect(gameState.Blobs[0].x).to.equal(2)
+        expect(gameState.Blobs[0].y).to.equal(1)
+    })
+
+    it('Should not move current player if would leave the map top', function (){
+        let newBlobArray = [new Blob(1, 2, "#AAFFAA")]
+        let gameState = new GameState(newBlobArray, 2, 2)
+        gameState = gameEngine.keyUp(gameState)
+
+        expect(gameState.Blobs[0].x).to.equal(1)
+        expect(gameState.Blobs[0].y).to.equal(2)
+    })
+
+    it('Should not move current player if would leave the map bottom', function (){
+        let newBlobArray = [new Blob(1, 1, "#AAFFAA")]
+        let gameState = new GameState(newBlobArray, 2, 2)
+        gameState = gameEngine.keyDown(gameState)
+
+        expect(gameState.Blobs[0].x).to.equal(1)
+        expect(gameState.Blobs[0].y).to.equal(1)
+    })
+
     it('should move the currentPlayer on when nextPlayer is invoked', function (){
         let newBlobArray = [new Blob(3, 3, "#AAFFAA"), new Blob(3,6)]
         let gameState = new GameState(newBlobArray)

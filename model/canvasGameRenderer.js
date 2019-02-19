@@ -1,15 +1,14 @@
-var gameModel = require('./Constants');
 
 class CanvasGameRenderer {
     constructor (canvas) {
         this.canvas = canvas
     }
-    Setup () {
+    Setup (gameState) {
         this.context = this.canvas.getContext("2d")
         this.width = this.canvas.width
         this.height = this.canvas.height
-        this.gridWidth = gameModel.grid.width;
-        this.gridHeight = gameModel.grid.height;
+        this.gridWidth = gameState.gridWidth;
+        this.gridHeight = gameState.gridHeight;
         this.clearWholeGameArea()
 
         //todo do this calculated from canvas and grid dimensions.

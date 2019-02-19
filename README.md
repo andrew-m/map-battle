@@ -14,8 +14,8 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 ✓3. Indicate which team is current turn.
 ✓3. Indicate location at start of term (ie - how far has it moved).
 ✓3. Allow teams to set start locations
+✓3. Prevent teams moving off the grid
 3. Configure size of grid, and offset (ie, non zero corner coordinates)
-3. Prevent teams moving off the grid
 3. Publish as website as well as Electron app.
 3. Allow teams to fire at a bearing. Draw this line on the display
 4. Calculate [line/circle collision](http://www.jeffreythompson.org/collision-detection/line-circle.php)

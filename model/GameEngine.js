@@ -22,22 +22,34 @@ function getCurrentBlob(gameState) {
 }
 
 function keyLeft(gameState) {
-    (moveLeft(getCurrentBlob(gameState)))
+    let currentBlob = getCurrentBlob(gameState);
+    if (currentBlob.x > 1) {
+        (moveLeft(currentBlob))
+    }
     return gameState
 }
 
 function keyRight(gameState) {
-    (moveRight(getCurrentBlob(gameState)))
+    let currentBlob = getCurrentBlob(gameState);
+    if (currentBlob.x < gameState.gridWidth) {
+        (moveRight(getCurrentBlob(gameState)))
+    }
     return gameState
 }
 
 function keyDown(gameState) {
-    (moveDown(getCurrentBlob(gameState)))
+    let currentBlob = getCurrentBlob(gameState);
+    if(currentBlob.y > 1) {
+        (moveDown(currentBlob))
+    }
     return gameState
 }
 
 function keyUp(gameState) {
-    (moveUp(getCurrentBlob(gameState)))
+    let currentBlob = getCurrentBlob(gameState);
+    if (currentBlob.y < gameState.gridHeight) {
+        (moveUp(currentBlob))
+    }
     return gameState
 }
 

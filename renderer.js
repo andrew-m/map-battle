@@ -47,9 +47,9 @@ function disablePreStartControls(doc) {
 
 function setupGameEngineAndCanvas(doc, newBlobArray) {
     canvasGameRenderer = new CanvasGameRenderer(doc.getElementById("canvas"));
-    canvasGameRenderer.Setup();
+    gameState = new GameState(newBlobArray, 10, 14)
 
-    gameState = new GameState(newBlobArray)
+    canvasGameRenderer.Setup(gameState);
     canvasGameRenderer.RenderGameState(gameState)
     updateCurrentTeamDiv(doc, gameState)
 
