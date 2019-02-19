@@ -30,10 +30,12 @@ function keyRight(gameState) {
     (moveRight(getCurrentBlob(gameState)))
     return gameState
 }
+
 function keyDown(gameState) {
     (moveDown(getCurrentBlob(gameState)))
     return gameState
 }
+
 function keyUp(gameState) {
     (moveUp(getCurrentBlob(gameState)))
     return gameState

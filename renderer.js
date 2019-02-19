@@ -21,16 +21,33 @@ const setup = function (doc) {
         return;
     }
 
+    let newBlobArray = []
+    newBlobArray.push(new Blob(10, 12, '#0000ff', true))
+    newBlobArray.push(new Blob(1, 12, '#ffff00', true))
+    newBlobArray.push(new Blob(10, 1, '#ff00ff', true))
+    newBlobArray.push(new Blob(1, 1, '#00ff00', true))
+
+    doc.getElementById("add-btn").onclick = () => {
+        var x = parseInt(doc.getElementById("x-txt").value, 10)
+        var y = parseInt(doc.getElementById("y-txt").value, 10)
+        newBlobArray.push(new Blob(x, y, '#707070', true))
+    }
+
+    doc.getElementById("start-btn").onclick = () => {
+        disablePreStartControls(doc)
+        setupGameEngineAndCanvas(doc, newBlobArray);
+    }
+}
+
+function disablePreStartControls(doc) {
+    document.getElementById("add-btn").disabled = true
+    document.getElementById("start-btn").disabled = true
+    doc.getElementById("pre-start").style.display = "none"
+}
+
+function setupGameEngineAndCanvas(doc, newBlobArray) {
     canvasGameRenderer = new CanvasGameRenderer(doc.getElementById("canvas"));
-
     canvasGameRenderer.Setup();
-
-    let newBlobArray = [
-        new Blob(10, 12, '#0000ff', true),
-        new Blob(1, 12, '#ffff00', true),
-        new Blob(10, 1, '#ff00ff', true),
-        new Blob(1, 1, '#00ff00', true),
-    ];
 
     gameState = new GameState(newBlobArray)
     canvasGameRenderer.RenderGameState(gameState)

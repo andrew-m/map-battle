@@ -12,7 +12,6 @@
     and Electron <script>document.write(process.versions.electron)</script>.
 
     <script>
-      // You can also require other files to run in this process
 //      import { Setup } from './renderer.js'; // don't know why this syntax doesn't work.
       let setup = require('./renderer.js').setup;
 
@@ -31,6 +30,14 @@
       <input type="button" name="finish" id="finish-btn" value="Finish Turn">
     </form>
     <div id="current-team"></div>
+    <div id="pre-start">
+      <label for="x-txt">Easting (X)</label>
+      <input type="text" id="x-txt">
+      <label for="y-txt">Northing (Y)</label>
+      <input type="text" id="y-txt">
+      <input type="button" name="add-btn" id="add-btn" value="Add Team">
+      <input type="button" name="start-btn" id="start-btn" value="Start Team">
+    </div>
 
     <canvas width="500" height="600" id="canvas"></canvas>
     <div id="logContainer"></div>
