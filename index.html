@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="./game.css">
   </head>
   <body>
     <h1>Hello World!</h1>
@@ -22,15 +23,15 @@
       }
     </script>
 
-    <form id="move-input-form">
-      <input type="button" name="up" id="up-btn" value="up">
-      <input type="button" name="left" id="left-btn" value="left">
-      <input type="button" name="right" id="right-btn" value="right">
-      <input type="button" name="down" id="down-btn" value="down">
-      <input type="button" name="finish" id="finish-btn" value="Finish Turn">
-    </form>
-    <div id="current-team"></div>
-    <div id="pre-start">
+    <div id="grid-setup">
+      <label for="x-size">Grid Size East/West</label>
+      <input type="text" id="x-size">
+      <label for="y-size">Grid Size North/South</label>
+      <input type="text" id="y-size">
+      <input type="button" id="set-grid-btn" value="Done">
+    </div>
+
+    <div id="pre-start" style="display:none">
       <label for="x-txt">Easting (X)</label>
       <input type="text" id="x-txt">
       <label for="y-txt">Northing (Y)</label>
@@ -39,7 +40,16 @@
       <input type="button" name="start-btn" id="start-btn" value="Start Team">
     </div>
 
-    <canvas width="500" height="700" id="canvas"></canvas>
+    <form id="move-input-form" style="display:none">
+      <input type="button" name="up" id="up-btn" value="up">
+      <input type="button" name="left" id="left-btn" value="left">
+      <input type="button" name="right" id="right-btn" value="right">
+      <input type="button" name="down" id="down-btn" value="down">
+      <input type="button" name="finish" id="finish-btn" value="Finish Turn">
+    </form>
+    <div id="current-team" style="display:none"></div>
+
+    <canvas width="500" height="600" id="canvas"></canvas>
     <div id="logContainer"></div>
   </body>
 </html>

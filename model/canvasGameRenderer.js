@@ -9,6 +9,8 @@ class CanvasGameRenderer {
         this.height = this.canvas.height
         this.gridWidth = gameState.gridWidth;
         this.gridHeight = gameState.gridHeight;
+        this.squareWidth = this.width / this.gridWidth
+        this.squareHeight = this.height / this.gridHeight
         this.clearWholeGameArea()
 
         //todo do this calculated from canvas and grid dimensions.
@@ -24,17 +26,15 @@ class CanvasGameRenderer {
         let endx = 200;
         let endy = 200;
 
-        var squareSize = this.width / this.gridWidth
-
         for (let i = 0; i < this.gridWidth; i++) {
-            startx = i * squareSize
+            startx = i * this.squareWidth
             endx = startx
             starty = 0
             endy = this.height
             drawGridLine(this.context, startx, starty, endx, endy);
         }
         for (i = 0; i < this.gridHeight; i++) {
-            starty = i * squareSize
+            starty = i * this.squareHeight
             endy = starty
             startx = 0
             endx = this.width
@@ -47,13 +47,13 @@ class CanvasGameRenderer {
         for (var i = 0; i < gameState.Blobs.length; i++) {
             var blob = gameState.Blobs[i]
 
-            let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width);
+            let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
 
             if (gameState.currentTurnIndex === i) {
-                var oldPositionRes = this.CalculatePositionWidthAndHeight(blob.oldx, blob.oldy, this.gridWidth, this.gridHeight, this.width);
+                var oldPositionRes = this.CalculatePositionWidthAndHeight(blob.oldx, blob.oldy, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
                 this.context.fillStyle = "#303050"
-                let squareSize = this.width / this.gridWidth
-                this.context.fillRect(oldPositionRes.x - squareSize/2, oldPositionRes.y - squareSize/2, squareSize, squareSize)
+                // let squareSize = this.width / this.gridWidth
+                this.context.fillRect(oldPositionRes.x - this.squareWidth/2, oldPositionRes.y - this.squareHeight/2, this.squareWidth, this.squareHeight)
             }
             this.context.fillStyle = blob.colour
             this.context.beginPath();
@@ -72,13 +72,12 @@ class CanvasGameRenderer {
 
     }
 
-    CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth) {
-        let squareSize = canvasWidth / gridWidth
+    CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth, squareWidth, squareHeight) {
         return {
-            x: (gridPositionX - 1) * (squareSize) + (squareSize/2),
-            y: ((gridHeight - gridPositionY) * squareSize) + (squareSize/2),
-            width: 50,
-            height: 50,
+            x: (gridPositionX - 1) * (squareWidth) + (squareWidth/2),
+                y: ((gridHeight - gridPositionY) * squareHeight) + (squareHeight/2),
+            width: squareWidth,
+            height: squareHeight,
             radius: 25,
         }
     }

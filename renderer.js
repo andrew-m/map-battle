@@ -16,16 +16,29 @@ function finishButtonFunction(updateCurrentTeamDiv, doc) {
 }
 
 const setup = function (doc) {
+
+    doc.getElementById("set-grid-btn").onclick = () => {
+        let width = parseInt(doc.getElementById("x-size").value, 10);
+        let height = parseInt(doc.getElementById("y-size").value, 10);
+        doc.getElementById("grid-setup").style.display = "none"
+
+        setupTeams(doc, width, height);
+    }
+
+}
+
+function setupTeams(doc, gridWidth, gridHeight) {
+    doc.getElementById("pre-start").style.display = "block"
     if (doc === null || doc === undefined) {
         console.log("doc is null :(");
         return;
     }
 
     let newBlobArray = []
-    newBlobArray.push(new Blob(10, 12, '#0000ff', true))
-    newBlobArray.push(new Blob(1, 12, '#ffff00', true))
-    newBlobArray.push(new Blob(10, 1, '#ff00ff', true))
-    newBlobArray.push(new Blob(1, 1, '#00ff00', true))
+    // newBlobArray.push(new Blob(10, 12, '#0000ff', true))
+    // newBlobArray.push(new Blob(1, 12, '#ffff00', true))
+    // newBlobArray.push(new Blob(10, 1, '#ff00ff', true))
+    // newBlobArray.push(new Blob(1, 1, '#00ff00', true))
 
     doc.getElementById("add-btn").onclick = () => {
         var x = parseInt(doc.getElementById("x-txt").value, 10)
@@ -35,7 +48,7 @@ const setup = function (doc) {
 
     doc.getElementById("start-btn").onclick = () => {
         disablePreStartControls(doc)
-        setupGameEngineAndCanvas(doc, newBlobArray);
+        setupGameEngineAndCanvas(doc, newBlobArray, gridWidth, gridHeight);
     }
 }
 
@@ -45,9 +58,10 @@ function disablePreStartControls(doc) {
     doc.getElementById("pre-start").style.display = "none"
 }
 
-function setupGameEngineAndCanvas(doc, newBlobArray) {
+function setupGameEngineAndCanvas(doc, newBlobArray, gridWidth, gridHeight) {
+    doc.getElementById("move-input-form").style.display = "block"
     canvasGameRenderer = new CanvasGameRenderer(doc.getElementById("canvas"));
-    gameState = new GameState(newBlobArray, 10, 14)
+    gameState = new GameState(newBlobArray, gridWidth, gridHeight)
 
     canvasGameRenderer.Setup(gameState);
     canvasGameRenderer.RenderGameState(gameState)
