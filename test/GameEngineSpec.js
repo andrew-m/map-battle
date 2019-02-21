@@ -11,7 +11,7 @@ const Blob = require('../model/Blob.js').Blob;
 
 describe('On Keyboard Events', function (){
     it('Should move current player controlled blobs left', function (){
-        let newBlobArray = [new Blob(3, 3, "#AAFFAA"), new Blob(3,6)]
+        let newBlobArray = [new Blob(3, 3, 1, "#AAFFAA"), new Blob(3,6,2)]
         let gameState = new GameState(newBlobArray)
         gameState = gameEngine.keyLeft(gameState)
 
@@ -20,7 +20,7 @@ describe('On Keyboard Events', function (){
     })
 
     it('Should not move current player if would leave the map left', function (){
-        let newBlobArray = [new Blob(1, 1, "#AAFFAA")]
+        let newBlobArray = [new Blob(1, 1, 1, "#AAFFAA")]
         let gameState = new GameState(newBlobArray, 2, 2)
         gameState = gameEngine.keyLeft(gameState)
 
@@ -29,7 +29,7 @@ describe('On Keyboard Events', function (){
     })
 
     it('Should not move current player if would leave the map right', function (){
-        let newBlobArray = [new Blob(2, 1, "#AAFFAA")]
+        let newBlobArray = [new Blob(2, 1, 1, "#AAFFAA")]
         let gameState = new GameState(newBlobArray, 2, 2)
         gameState = gameEngine.keyRight(gameState)
 
@@ -38,7 +38,7 @@ describe('On Keyboard Events', function (){
     })
 
     it('Should not move current player if would leave the map top', function (){
-        let newBlobArray = [new Blob(1, 2, "#AAFFAA")]
+        let newBlobArray = [new Blob(1, 2, 1, "#AAFFAA")]
         let gameState = new GameState(newBlobArray, 2, 2)
         gameState = gameEngine.keyUp(gameState)
 
@@ -47,7 +47,7 @@ describe('On Keyboard Events', function (){
     })
 
     it('Should not move current player if would leave the map bottom', function (){
-        let newBlobArray = [new Blob(1, 1, "#AAFFAA")]
+        let newBlobArray = [new Blob(1, 1, 1, "#AAFFAA")]
         let gameState = new GameState(newBlobArray, 2, 2)
         gameState = gameEngine.keyDown(gameState)
 
@@ -56,7 +56,7 @@ describe('On Keyboard Events', function (){
     })
 
     it('should move the currentPlayer on when nextPlayer is invoked', function (){
-        let newBlobArray = [new Blob(3, 3, "#AAFFAA"), new Blob(3,6)]
+        let newBlobArray = [new Blob(3, 3, 1, "#AAFFAA"), new Blob(3,6,1)]
         let gameState = new GameState(newBlobArray)
         gameState = gameEngine.nextPlayer(gameState)
         gameState = gameEngine.keyLeft(gameState)
@@ -66,7 +66,7 @@ describe('On Keyboard Events', function (){
     })
 
     it('currentPlayer should wrap around', function (){
-        let newBlobArray = [new Blob(3, 3, "#AAFFAA"), new Blob(3,6)]
+        let newBlobArray = [new Blob(3, 3, 1, "#AAFFAA"), new Blob(3,6, 1)]
         let gameState = new GameState(newBlobArray)
         gameState = gameEngine.nextPlayer(gameState)
         gameState = gameEngine.nextPlayer(gameState)
@@ -77,7 +77,7 @@ describe('On Keyboard Events', function (){
     })
 
     it('currentPlayer old positions should be updated at end of turn', function (){
-        let newBlobArray = [new Blob(3, 3, "#AAFFAA"), new Blob(3,6)]
+        let newBlobArray = [new Blob(3, 3, 1, "#AAFFAA"), new Blob(3,6, 1)]
         let gameState = new GameState(newBlobArray)
         gameState = gameEngine.keyLeft(gameState)
 

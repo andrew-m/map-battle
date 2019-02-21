@@ -67,7 +67,7 @@ class CanvasGameRenderer {
             this.context.font = "30px Arial"
             this.context.textAlign = 'center';
             this.context.textBaseline = 'middle';
-            this.context.fillText(i, res.x, res.y, 50)
+            this.context.fillText(blob.number, res.x, res.y, 50)
         }
 
     }

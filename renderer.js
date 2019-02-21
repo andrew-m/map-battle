@@ -34,16 +34,18 @@ function setupTeams(doc, gridWidth, gridHeight) {
         return;
     }
 
+    let colourArray = ["#ff0000","#00ff00", "#0000ff", "#00ffff", "#ff00ff", "#ffff00"]
     let newBlobArray = []
-    // newBlobArray.push(new Blob(10, 12, '#0000ff', true))
-    // newBlobArray.push(new Blob(1, 12, '#ffff00', true))
-    // newBlobArray.push(new Blob(10, 1, '#ff00ff', true))
-    // newBlobArray.push(new Blob(1, 1, '#00ff00', true))
+
+    function getColour() {
+        let colour = colourArray.pop();
+        return colour || "#7070b0"
+    }
 
     doc.getElementById("add-btn").onclick = () => {
         var x = parseInt(doc.getElementById("x-txt").value, 10)
         var y = parseInt(doc.getElementById("y-txt").value, 10)
-        newBlobArray.push(new Blob(x, y, '#707070', true))
+        newBlobArray.push(new Blob(x, y, 1, getColour()))
     }
 
     doc.getElementById("start-btn").onclick = () => {
