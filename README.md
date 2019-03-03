@@ -15,16 +15,22 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 ✓3. Indicate location at start of term (ie - how far has it moved).
 ✓3. Allow teams to set start locations
 ✓3. Prevent teams moving off the grid
-3. Apply colours to user created teams.
+✓3. Configure size of grid
+✓3. Apply colours to user created teams.
+3. Publish as website as well as Electron app. - 
+    - in branch "spike-browserify-using-browserify"
+3. Allow teams to fire at a bearing. Draw this line on the display (Use game space not canvas space)
+3. Fix bug - all teams say "1" on canvas.
 3. Style to make canvas take up more screen space.
+3. Style movement buttons into square for touchscreens
 3. Style with media Queries to work on mobile with efficient use of screen space.
-3. Configure size of grid
+    viewport stuff - https://stackoverflow.com/questions/20590239/maintain-aspect-ratio-of-div-but-fill-screen-width-and-height-in-css
+    Landscape or portrait
+    Buttons below or buttons beside (or buttons hidden? toggle button?)
 3. Prevent teams starting outside grid
 3. Annotate the grid lines with their numeric values.
     (may need some margin around the grid.)
 3. Configure grid/map offset (ie, non zero corner coordinates)
-3. Publish as website as well as Electron app.
-3. Allow teams to fire at a bearing. Draw this line on the display
 4. Calculate [line/circle collision](http://www.jeffreythompson.org/collision-detection/line-circle.php)
 5. Keep track of hits/lives.
 
