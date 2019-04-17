@@ -16,6 +16,7 @@
 //Still sounds about right
 
 //Immutable or mutable game state? I think mutable will be fine.
+Vector = require('./Vector.js').Vector;
 
 function getCurrentBlob(gameState) {
     return gameState.Blobs[gameState.currentTurnIndex];
@@ -64,6 +65,11 @@ function nextPlayer (gameState) {
     return gameState
 }
 
+function bearingFired (bearing, gameState) {
+    gameState.vector = new Vector(2,1)
+    return gameState
+}
+
 function moveUp(blob) {
     blob.y += 1 //OS grid references start in South West corner.
     return blob
@@ -89,5 +95,6 @@ module.exports = {
     keyRight,
     keyDown,
     keyUp,
-    nextPlayer
+    nextPlayer,
+    bearingFired
 }

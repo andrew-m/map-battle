@@ -9,6 +9,9 @@ let canvasGameRenderer
 
 function finishButtonFunction(updateCurrentTeamDiv, doc) {
     return () => {
+        let bearing = parseInt(doc.getElementById("bearing").value, 10)
+        console.log("Bearing: " + bearing)
+        gameState = GameEngine.bearingFired(bearing, gameState);
         gameState = GameEngine.nextPlayer(gameState);
         updateCurrentTeamDiv(doc, gameState);
         canvasGameRenderer.RenderGameState(gameState);

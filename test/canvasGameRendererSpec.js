@@ -12,7 +12,7 @@ describe('Game Renderer for HTML canvas', function() {
         //so squares are 50 across.
         let canvasHeight = 600;
         let gridHeight = 12;
-        //OS maps are sort of Zero indexed. But the reference describes the square,
+        // OS maps are sort of Zero indexed. But the reference describes the square,
         // east and north of the gridlines described in the reference.
         // OS references from bottom left corner.
 

@@ -4,6 +4,7 @@ const assert = require('assert');
 const gameEngine = require('../model/GameEngine.js');
 let GameState = require('../model/GameState.js').GameState;
 const Blob = require('../model/Blob.js').Blob;
+vectorCalc = require('../model/VectorFromAngleCalculator');
 
 //todo get rid of runFramesUntilNothingElseChanges function, (and the "moved" variable Game Engine returns for it.
 //You'll need to refactor these tests to have multiple ticks.
@@ -53,6 +54,15 @@ describe('On Keyboard Events', function (){
 
         expect(gameState.Blobs[0].x).to.equal(1)
         expect(gameState.Blobs[0].y).to.equal(1)
+    })
+
+    it('should Add vector to the game state from bearing', function (){
+        let newBlobArray = [new Blob(1, 1, 1, "#AAFFAA")]
+        let gameState = new GameState(newBlobArray)
+
+        gameState = gameEngine.bearingFired(90, gameState)
+        expect(gameState.vector.x).to.be.above(0)
+        expect(gameState.vector.y).to.equal(1)
     })
 
     it('should move the currentPlayer on when nextPlayer is invoked', function (){
