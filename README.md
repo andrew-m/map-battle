@@ -17,9 +17,11 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 ✓3. Prevent teams moving off the grid
 ✓3. Configure size of grid
 ✓3. Apply colours to user created teams.
-3. Publish as website as well as Electron app. - 
-    - in branch "spike-browserify-using-browserify"
+✓3. Make work as website as well as Electron app. - 
+    - in branch "spike-browserify-using-browserify" - merged in.
+✓3. Fix styling (colours) in webpage version
 3. Allow teams to fire at a bearing. Draw this line on the display (Use game space not canvas space)
+3. Publish as static webpage to somewhere
 3. Set game parameters from querystring if present (allows saving/sharing settings)
 3. Fix bug - all teams say "1" on canvas.
 3. Style to make canvas take up more screen space.
