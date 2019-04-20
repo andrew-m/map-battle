@@ -25,12 +25,14 @@ describe('Should convert degrees to radians', function() {
 
 describe('should convert angles to vectors', function () {
     it('should return zero x and positive y for North', function () {
-        let vector = vectorCalc.angleAndDistanceToCoordinatesold(vectorCalc.degreesToRadians(0), 1)
+        // let vector = vectorCalc.angleRadiansAndDistanceToCoordinates(vectorCalc.degreesToRadians(0), 1)
+        let vector = vectorCalc.calculateVector(0, 1)
         expect(vector.x).to.equal(0)
         expect(vector.y).to.equal(1)
     });
+
     it('should return positive x and zero y for east', function () {
-        let vector = vectorCalc.angleAndDistanceToCoordinatesold(vectorCalc.degreesToRadians(90), 1)
+        let vector = vectorCalc.calculateVector(90, 1)
         expect(vector.x).to.almost.equal(1)
         expect(vector.y).to.almost.equal(0)
     });

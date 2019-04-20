@@ -1,5 +1,8 @@
 require('mocha')
-const { expect } = require('chai')
+const chai = require('chai')
+const expect = chai.expect
+const chaiAlmost = require('chai-almost');
+chai.use(chaiAlmost());
 const assert = require('assert');
 const gameEngine = require('../model/GameEngine.js');
 let GameState = require('../model/GameState.js').GameState;
@@ -56,15 +59,6 @@ describe('On Keyboard Events', function (){
         expect(gameState.Blobs[0].y).to.equal(1)
     })
 
-    it('should Add vector to the game state from bearing', function (){
-        let newBlobArray = [new Blob(1, 1, 1, "#AAFFAA")]
-        let gameState = new GameState(newBlobArray)
-
-        gameState = gameEngine.bearingFired(90, gameState)
-        expect(gameState.vector.x).to.be.above(0)
-        expect(gameState.vector.y).to.equal(1)
-    })
-
     it('should move the currentPlayer on when nextPlayer is invoked', function (){
         let newBlobArray = [new Blob(3, 3, 1, "#AAFFAA"), new Blob(3,6,1)]
         let gameState = new GameState(newBlobArray)
@@ -99,5 +93,16 @@ describe('On Keyboard Events', function (){
         gameState = gameEngine.nextPlayer(gameState)
         expect(gameState.Blobs[0].oldx).to.equal(2)
         expect(gameState.Blobs[0].oldy).to.equal(3)
+    })
+})
+
+describe('Firing: Bearings to Vectors', function (){
+    it('should Add vector to the current blob from bearing', function (){
+        let newBlobArray = [new Blob(1, 1, 1, "#AAFFAA"),  new Blob(2,2,2)]
+        let gameState = new GameState(newBlobArray)
+
+        gameState = gameEngine.bearingFired(90, gameState)
+        expect(gameState.Blobs[0].vector.x).to.almost.equal(1)
+        expect(gameState.Blobs[0].vector.y).to.almost.equal(0)
     })
 })

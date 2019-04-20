@@ -17,6 +17,7 @@
 
 //Immutable or mutable game state? I think mutable will be fine.
 Vector = require('./Vector.js').Vector;
+VectorCalculator = require('./VectorFromAngleCalculator.js')
 
 function getCurrentBlob(gameState) {
     return gameState.Blobs[gameState.currentTurnIndex];
@@ -66,7 +67,9 @@ function nextPlayer (gameState) {
 }
 
 function bearingFired (bearing, gameState) {
-    gameState.vector = new Vector(2,1)
+    let currentBlob = getCurrentBlob(gameState);
+    let vector = VectorCalculator.calculateVector(bearing, 1);
+    currentBlob.vector = vector
     return gameState
 }
 

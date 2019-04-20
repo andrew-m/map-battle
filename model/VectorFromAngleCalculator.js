@@ -16,36 +16,25 @@
 //
 Vector = require('./Vector.js').Vector;
 
-function somethingAdd (a, b){
-    return a + b
-}
-
 function degreesToRadians (deg) {
     return (deg * (Math.PI/180))
 }
 
-function angleToCoordinates(angleInDegrees) {
-    return angleAndDistanceToCoordinatesFromStackOverflow(angleInDegrees, 1)
+function calculateVector(angleInDegrees, distance) {
+    return angleRadiansAndDistanceToCoordinates(degreesToRadians(angleInDegrees), distance)
 }
 
-function angleAndDistanceToCoordinatesold(angleInDegrees, distance) {
+function angleRadiansAndDistanceToCoordinates(angleInRadians, distance) {
     //soh cah toa
     //sin(angle) = opp / hyp.
     //sin(angle) = x / distance
     //x = sin(angle) * distance
-    let x = Math.sin(angleInDegrees) * distance
+    let x = Math.sin(angleInRadians) * distance
 
     //cosine(angle) = adj/hyp
     //cos(angle) * hyp = adj //where adj is y.
-    let y = Math.cos(angleInDegrees) * distance
+    let y = Math.cos(angleInRadians) * distance
     return new Vector(x, y)
 }
 
-    function angleAndDistanceToCoordinatesFromStackOverflow(angle, distance) {
-        let newX = Math.round(Math.cos(degreesToRadians(angle)) * distance);
-        let newY = Math.round(Math.sin(degreesToRadians(angle)) * distance);
-
-        return new Vector(newX, newY);
-    }
-
-module.exports ={somethingAdd, degreesToRadians, angleToCoordinates, angleAndDistanceToCoordinatesold}
+module.exports ={degreesToRadians, calculateVector}
