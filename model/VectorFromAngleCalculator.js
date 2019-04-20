@@ -30,10 +30,12 @@ function angleRadiansAndDistanceToCoordinates(angleInRadians, distance) {
     //sin(angle) = x / distance
     //x = sin(angle) * distance
     let x = Math.sin(angleInRadians) * distance
+    x = Math.round(x * 100) / 100
 
     //cosine(angle) = adj/hyp
     //cos(angle) * hyp = adj //where adj is y.
     let y = Math.cos(angleInRadians) * distance
+    y = Math.round(y * 100) / 100
     return new Vector(x, y)
 }
 

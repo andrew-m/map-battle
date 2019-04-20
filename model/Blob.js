@@ -6,6 +6,7 @@ class Blob {
         this.oldy = y
         this.number = number;
         this.colour = colour
+        this.vector = new Vector(0,0)
     }
 }
 

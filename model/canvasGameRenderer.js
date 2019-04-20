@@ -1,4 +1,3 @@
-
 class CanvasGameRenderer {
     constructor (canvas) {
         this.canvas = canvas
@@ -33,6 +32,7 @@ class CanvasGameRenderer {
             endy = this.height
             drawGridLine(this.context, startx, starty, endx, endy);
         }
+
         for (i = 0; i < this.gridHeight; i++) {
             starty = i * this.squareHeight
             endy = starty
@@ -49,7 +49,7 @@ class CanvasGameRenderer {
 
             let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
 
-            if (gameState.currentTurnIndex === i) {
+            if (gameState.currentTurnIndex === i) { //current blob
                 var oldPositionRes = this.CalculatePositionWidthAndHeight(blob.oldx, blob.oldy, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
                 this.context.fillStyle = "#303050"
                 // let squareSize = this.width / this.gridWidth
@@ -63,6 +63,8 @@ class CanvasGameRenderer {
             this.context.lineWidth = 2
             this.context.stroke();
 
+            drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+
             this.context.fillStyle = findContrastingTextColor(blob.colour)
             this.context.font = "30px Arial"
             this.context.textAlign = 'center';
@@ -74,13 +76,21 @@ class CanvasGameRenderer {
 
     CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth, squareWidth, squareHeight) {
         return {
-            x: (gridPositionX - 1) * (squareWidth) + (squareWidth/2),
-                y: ((gridHeight - gridPositionY) * squareHeight) + (squareHeight/2),
+                x: findCenterOfGameSquareXInCanvasSpace(gridPositionX, squareWidth),
+                y: findCenterOfGameSquareYInCanvasSpace(gridHeight, gridPositionY, squareHeight),
             width: squareWidth,
             height: squareHeight,
             radius: 25,
         }
     }
+}
+
+function findCenterOfGameSquareXInCanvasSpace(gridPositionX, squareWidth) {
+    return (gridPositionX - 1) * (squareWidth) + (squareWidth / 2);
+}
+
+function findCenterOfGameSquareYInCanvasSpace(gridHeight, gridPositionY, squareHeight) {
+    return ((gridHeight - gridPositionY) * squareHeight) + (squareHeight / 2);
 }
 
 function findContrastingTextColor(color){
@@ -91,8 +101,30 @@ function findContrastingTextColor(color){
 }
 
 function drawGridLine(ctx, startx, starty, endx, endy) {
-    ctx.strokeStyle = "#50E0f0"
-    ctx.lineWidth = 1
+    let colour = "#50E0f0";
+    let lineWidth = 1;
+
+    drawLine(ctx, colour, lineWidth, startx, starty, endx, endy);
+}
+
+function drawShotFiredLine(ctx, blob, gridHeight, squareWidth, squareHeight) {
+    let startx = findCenterOfGameSquareXInCanvasSpace(blob.x, squareWidth);
+    let starty = findCenterOfGameSquareYInCanvasSpace(gridHeight, blob.y, squareHeight);
+
+    drawLine(
+        ctx,
+        "#ff3500",
+        4,
+        startx,
+        starty,
+        startx + (blob.vector.x * squareWidth),
+        starty - (blob.vector.y * squareHeight)
+    )
+}
+
+function drawLine(ctx, colour, lineWidth, startx, starty, endx, endy) {
+    ctx.strokeStyle = colour
+    ctx.lineWidth = lineWidth
     ctx.beginPath()
     ctx.moveTo(startx, starty)
     ctx.lineTo(endx, endy)

@@ -21,6 +21,7 @@ When playing Mark's map reading tank battle game on paper maps with physical com
     - in branch "spike-browserify-using-browserify" - merged in.
 ✓3. Fix styling (colours) in webpage version
 3. Allow teams to fire at a bearing. Draw this line on the display (Use game space not canvas space)
+    3. Render the bearing/line fired using the canvas game renderer.
 3. Publish as static webpage to somewhere
 3. Set game parameters from querystring if present (allows saving/sharing settings)
 3. Fix bug - all teams say "1" on canvas.

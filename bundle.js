@@ -7,6 +7,7 @@ class Blob {
         this.oldy = y
         this.number = number;
         this.colour = colour
+        this.vector = new Vector(0,0)
     }
 }
 
@@ -30,6 +31,8 @@ module.exports = { Blob }
 //Still sounds about right
 
 //Immutable or mutable game state? I think mutable will be fine.
+Vector = require('./Vector.js').Vector;
+VectorCalculator = require('./VectorFromAngleCalculator.js')
 
 function getCurrentBlob(gameState) {
     return gameState.Blobs[gameState.currentTurnIndex];
@@ -78,6 +81,13 @@ function nextPlayer (gameState) {
     return gameState
 }
 
+function bearingFired (bearing, gameState) {
+    let currentBlob = getCurrentBlob(gameState);
+    let vector = VectorCalculator.calculateVector(bearing, 1);
+    currentBlob.vector = vector
+    return gameState
+}
+
 function moveUp(blob) {
     blob.y += 1 //OS grid references start in South West corner.
     return blob
@@ -103,15 +113,17 @@ module.exports = {
     keyRight,
     keyDown,
     keyUp,
-    nextPlayer
+    nextPlayer,
+    bearingFired
 }
-},{}],3:[function(require,module,exports){
+},{"./Vector.js":5,"./VectorFromAngleCalculator.js":6}],3:[function(require,module,exports){
 class GameState {
     constructor(blobs = [], gridWidth, gridHeight, currentTurnIndex = 0) {
         this.Blobs = blobs
         this.currentTurnIndex = currentTurnIndex
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
+        this.vector = null //Should this be on the blobs? Do we need two? (origin and destination)
     }
 }
 
@@ -159,7 +171,58 @@ class KeyboardInput {
 module.exports = {KeyboardInput, keyRegistration}
 
 },{}],5:[function(require,module,exports){
+class Vector {
+    constructor(x, y) {
+        this.x = x
+        this.y = y
+    }
+}
 
+module.exports ={Vector}
+},{}],6:[function(require,module,exports){
+//https://softwareengineering.stackexchange.com/questions/179389/find-the-new-coordinates-using-a-starting-point-a-distance-and-an-angle
+
+//Gist - trig is fine. _but_ js math libraries use radians not degrees.
+//Can convert degrees to radians easily enough using ```radians = (degrees * (Math.PI/180)```
+
+// Need to decide on a distance too. Could just be "bigger than the longest distance on the map"
+// or could calculate distance to the edge (faff just to prevent it overflowing)
+// or take distance as an input (could be good, in distance - more map reading).
+// or set it at a finite distance
+
+
+//so, fire at angle (simplest case for players)
+//input angle in degrees (eg 10)
+//soh cah toa in a right angle triangle
+//Pick an arbitrary length for the hypotenuse? (greater than greatest distance)
+//
+Vector = require('./Vector.js').Vector;
+
+function degreesToRadians (deg) {
+    return (deg * (Math.PI/180))
+}
+
+function calculateVector(angleInDegrees, distance) {
+    return angleRadiansAndDistanceToCoordinates(degreesToRadians(angleInDegrees), distance)
+}
+
+function angleRadiansAndDistanceToCoordinates(angleInRadians, distance) {
+    //soh cah toa
+    //sin(angle) = opp / hyp.
+    //sin(angle) = x / distance
+    //x = sin(angle) * distance
+    let x = Math.sin(angleInRadians) * distance
+    x = Math.round(x * 100) / 100
+
+    //cosine(angle) = adj/hyp
+    //cos(angle) * hyp = adj //where adj is y.
+    let y = Math.cos(angleInRadians) * distance
+    y = Math.round(y * 100) / 100
+    return new Vector(x, y)
+}
+
+module.exports ={degreesToRadians, calculateVector}
+},{"./Vector.js":5}],7:[function(require,module,exports){
 class CanvasGameRenderer {
     constructor (canvas) {
         this.canvas = canvas
@@ -194,6 +257,7 @@ class CanvasGameRenderer {
             endy = this.height
             drawGridLine(this.context, startx, starty, endx, endy);
         }
+
         for (i = 0; i < this.gridHeight; i++) {
             starty = i * this.squareHeight
             endy = starty
@@ -210,7 +274,7 @@ class CanvasGameRenderer {
 
             let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
 
-            if (gameState.currentTurnIndex === i) {
+            if (gameState.currentTurnIndex === i) { //current blob
                 var oldPositionRes = this.CalculatePositionWidthAndHeight(blob.oldx, blob.oldy, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
                 this.context.fillStyle = "#303050"
                 // let squareSize = this.width / this.gridWidth
@@ -224,6 +288,8 @@ class CanvasGameRenderer {
             this.context.lineWidth = 2
             this.context.stroke();
 
+            drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+
             this.context.fillStyle = findContrastingTextColor(blob.colour)
             this.context.font = "30px Arial"
             this.context.textAlign = 'center';
@@ -235,13 +301,21 @@ class CanvasGameRenderer {
 
     CalculatePositionWidthAndHeight(gridPositionX, gridPositionY, gridWidth, gridHeight, canvasWidth, squareWidth, squareHeight) {
         return {
-            x: (gridPositionX - 1) * (squareWidth) + (squareWidth/2),
-                y: ((gridHeight - gridPositionY) * squareHeight) + (squareHeight/2),
+                x: findCenterOfGameSquareXInCanvasSpace(gridPositionX, squareWidth),
+                y: findCenterOfGameSquareYInCanvasSpace(gridHeight, gridPositionY, squareHeight),
             width: squareWidth,
             height: squareHeight,
             radius: 25,
         }
     }
+}
+
+function findCenterOfGameSquareXInCanvasSpace(gridPositionX, squareWidth) {
+    return (gridPositionX - 1) * (squareWidth) + (squareWidth / 2);
+}
+
+function findCenterOfGameSquareYInCanvasSpace(gridHeight, gridPositionY, squareHeight) {
+    return ((gridHeight - gridPositionY) * squareHeight) + (squareHeight / 2);
 }
 
 function findContrastingTextColor(color){
@@ -252,8 +326,30 @@ function findContrastingTextColor(color){
 }
 
 function drawGridLine(ctx, startx, starty, endx, endy) {
-    ctx.strokeStyle = "#50E0f0"
-    ctx.lineWidth = 1
+    let colour = "#50E0f0";
+    let lineWidth = 1;
+
+    drawLine(ctx, colour, lineWidth, startx, starty, endx, endy);
+}
+
+function drawShotFiredLine(ctx, blob, gridHeight, squareWidth, squareHeight) {
+    let startx = findCenterOfGameSquareXInCanvasSpace(blob.x, squareWidth);
+    let starty = findCenterOfGameSquareYInCanvasSpace(gridHeight, blob.y, squareHeight);
+
+    drawLine(
+        ctx,
+        "#ff3500",
+        4,
+        startx,
+        starty,
+        startx + (blob.vector.x * squareWidth),
+        starty - (blob.vector.y * squareHeight)
+    )
+}
+
+function drawLine(ctx, colour, lineWidth, startx, starty, endx, endy) {
+    ctx.strokeStyle = colour
+    ctx.lineWidth = lineWidth
     ctx.beginPath()
     ctx.moveTo(startx, starty)
     ctx.lineTo(endx, endy)
@@ -261,7 +357,7 @@ function drawGridLine(ctx, startx, starty, endx, endy) {
 }
 
 module.exports = {  CanvasGameRenderer }
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 let Blob = require ('./model/Blob.js').Blob;
 let GameState = require('./model/GameState.js').GameState;
 const CanvasGameRenderer = require('./model/canvasGameRenderer').CanvasGameRenderer;
@@ -273,6 +369,9 @@ let canvasGameRenderer
 
 function finishButtonFunction(updateCurrentTeamDiv, doc) {
     return () => {
+        let bearing = parseInt(doc.getElementById("bearing").value, 10)
+        console.log("Bearing: " + bearing)
+        gameState = GameEngine.bearingFired(bearing, gameState);
         gameState = GameEngine.nextPlayer(gameState);
         updateCurrentTeamDiv(doc, gameState);
         canvasGameRenderer.RenderGameState(gameState);
@@ -361,5 +460,5 @@ function setupGameEngineAndCanvas(doc, newBlobArray, gridWidth, gridHeight) {
 module.exports = {
     setup
 }
-},{"./model/Blob.js":1,"./model/GameEngine":2,"./model/GameState.js":3,"./model/KeyboardInput.js":4,"./model/canvasGameRenderer":5}]},{},[6])(6)
+},{"./model/Blob.js":1,"./model/GameEngine":2,"./model/GameState.js":3,"./model/KeyboardInput.js":4,"./model/canvasGameRenderer":7}]},{},[8])(8)
 });
