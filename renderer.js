@@ -15,6 +15,7 @@ function finishButtonFunction(updateCurrentTeamDiv, doc) {
         gameState = GameEngine.nextPlayer(gameState);
         updateCurrentTeamDiv(doc, gameState);
         canvasGameRenderer.RenderGameState(gameState);
+        return false;
     };
 }
 
@@ -89,7 +90,7 @@ function setupGameEngineAndCanvas(doc, newBlobArray, gridWidth, gridHeight) {
         doc1.getElementById("current-team").innerHTML = "Current team: " + gs.currentTurnIndex
     }
 
-    doc.getElementById("finish-btn").onclick = finishButtonFunction(updateCurrentTeamDiv, doc)
+    doc.getElementById("move-input-form").onsubmit = finishButtonFunction(updateCurrentTeamDiv, doc)
 
     let ki = new KeyboardInput(keys);
 
