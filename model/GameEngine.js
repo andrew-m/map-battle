@@ -66,9 +66,9 @@ function nextPlayer (gameState) {
     return gameState
 }
 
-function bearingFired (bearing, gameState) {
+function bearingFired (bearing, gameState, distance) {
     let currentBlob = getCurrentBlob(gameState);
-    let vector = VectorCalculator.calculateVector(bearing, 1);
+    let vector = VectorCalculator.calculateVector(bearing, distance);
     currentBlob.vector = vector
     return gameState
 }

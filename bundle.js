@@ -81,9 +81,9 @@ function nextPlayer (gameState) {
     return gameState
 }
 
-function bearingFired (bearing, gameState) {
+function bearingFired (bearing, gameState, distance) {
     let currentBlob = getCurrentBlob(gameState);
-    let vector = VectorCalculator.calculateVector(bearing, 1);
+    let vector = VectorCalculator.calculateVector(bearing, distance);
     currentBlob.vector = vector
     return gameState
 }
@@ -280,15 +280,17 @@ class CanvasGameRenderer {
                 // let squareSize = this.width / this.gridWidth
                 this.context.fillRect(oldPositionRes.x - this.squareWidth/2, oldPositionRes.y - this.squareHeight/2, this.squareWidth, this.squareHeight)
             }
+
+            drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+
             this.context.fillStyle = blob.colour
             this.context.beginPath();
             this.context.arc(res.x, res.y, res.width / 2, 0, 2 * Math.PI);
             this.context.fill();
             this.context.strokeStyle = "#303030";
             this.context.lineWidth = 2
-            this.context.stroke();
 
-            drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+            this.context.stroke();
 
             this.context.fillStyle = findContrastingTextColor(blob.colour)
             this.context.font = "30px Arial"
@@ -371,7 +373,7 @@ function finishButtonFunction(updateCurrentTeamDiv, doc) {
     return () => {
         let bearing = parseInt(doc.getElementById("bearing").value, 10)
         console.log("Bearing: " + bearing)
-        gameState = GameEngine.bearingFired(bearing, gameState);
+        gameState = GameEngine.bearingFired(bearing, gameState, 10);
         gameState = GameEngine.nextPlayer(gameState);
         updateCurrentTeamDiv(doc, gameState);
         canvasGameRenderer.RenderGameState(gameState);

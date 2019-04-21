@@ -20,8 +20,12 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 ✓3. Make work as website as well as Electron app. - 
     - in branch "spike-browserify-using-browserify" - merged in.
 ✓3. Fix styling (colours) in webpage version
-3. Allow teams to fire at a bearing. Draw this line on the display (Use game space not canvas space)
-    3. Render the bearing/line fired using the canvas game renderer.
+✓3. Allow teams to fire at a bearing. Draw this line on the display (Use game space not canvas space)
+    ✓3. Render the bearing/line fired using the canvas game renderer.
+    3. Make shot only appear from last fired team, or even only until next team moves.
+        (or fade it to another colour?)
+    3. Make shot stay from old position.
+    
 3. Publish as static webpage to somewhere
 3. Set game parameters from querystring if present (allows saving/sharing settings)
 3. Fix bug - all teams say "1" on canvas.

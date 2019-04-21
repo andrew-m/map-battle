@@ -101,8 +101,8 @@ describe('Firing: Bearings to Vectors', function (){
         let newBlobArray = [new Blob(1, 1, 1, "#AAFFAA"),  new Blob(2,2,2)]
         let gameState = new GameState(newBlobArray)
 
-        gameState = gameEngine.bearingFired(90, gameState)
-        expect(gameState.Blobs[0].vector.x).to.almost.equal(1)
+        gameState = gameEngine.bearingFired(90, gameState, 10)
+        expect(gameState.Blobs[0].vector.x).to.equal(10)
         expect(gameState.Blobs[0].vector.y).to.almost.equal(0)
     })
 })

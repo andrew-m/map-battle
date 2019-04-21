@@ -55,15 +55,17 @@ class CanvasGameRenderer {
                 // let squareSize = this.width / this.gridWidth
                 this.context.fillRect(oldPositionRes.x - this.squareWidth/2, oldPositionRes.y - this.squareHeight/2, this.squareWidth, this.squareHeight)
             }
+
+            drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+
             this.context.fillStyle = blob.colour
             this.context.beginPath();
             this.context.arc(res.x, res.y, res.width / 2, 0, 2 * Math.PI);
             this.context.fill();
             this.context.strokeStyle = "#303030";
             this.context.lineWidth = 2
-            this.context.stroke();
 
-            drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+            this.context.stroke();
 
             this.context.fillStyle = findContrastingTextColor(blob.colour)
             this.context.font = "30px Arial"
