@@ -113,15 +113,15 @@ function drawShotFiredLine(ctx, blob, gridHeight, squareWidth, squareHeight) {
     let startx = findCenterOfGameSquareXInCanvasSpace(blob.x, squareWidth);
     let starty = findCenterOfGameSquareYInCanvasSpace(gridHeight, blob.y, squareHeight);
 
-    drawLine(
-        ctx,
-        "#ff3500",
-        4,
-        startx,
-        starty,
-        startx + (blob.vector.x * squareWidth),
-        starty - (blob.vector.y * squareHeight)
-    )
+    ctx.strokeStyle = "#00952d"
+    ctx.lineWidth = 4
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "#ff3500";
+    ctx.beginPath()
+    ctx.moveTo(startx, starty)
+    ctx.lineTo(startx + (blob.vector.x * squareWidth), starty - (blob.vector.y * squareHeight))
+    ctx.stroke()
+    ctx.shadowColor = "transparent";
 }
 
 function drawLine(ctx, colour, lineWidth, startx, starty, endx, endy) {
