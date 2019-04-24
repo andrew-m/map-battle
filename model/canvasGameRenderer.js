@@ -44,19 +44,22 @@ class CanvasGameRenderer {
 
     RenderGameState(gameState){
         this.clearWholeGameArea()
+        let previousTurnsBlobIndex = gameState.currentTurnIndex === 0 ? (gameState.Blobs.length -1) : gameState.currentTurnIndex - 1
         for (var i = 0; i < gameState.Blobs.length; i++) {
             var blob = gameState.Blobs[i]
 
             let res = this.CalculatePositionWidthAndHeight(blob.x, blob.y, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
 
-            if (gameState.currentTurnIndex === i) { //current blob
+            if (i === gameState.currentTurnIndex) { //current blob
                 var oldPositionRes = this.CalculatePositionWidthAndHeight(blob.oldx, blob.oldy, this.gridWidth, this.gridHeight, this.width, this.squareWidth, this.squareHeight);
                 this.context.fillStyle = "#303050"
                 // let squareSize = this.width / this.gridWidth
                 this.context.fillRect(oldPositionRes.x - this.squareWidth/2, oldPositionRes.y - this.squareHeight/2, this.squareWidth, this.squareHeight)
             }
 
-            drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+            if (i === previousTurnsBlobIndex ){
+                drawShotFiredLine(this.context, blob, this.gridHeight, this.squareWidth, this.squareHeight)
+            }
 
             this.context.fillStyle = blob.colour
             this.context.beginPath();

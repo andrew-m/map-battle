@@ -22,10 +22,9 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 ✓3. Fix styling (colours) in webpage version
 ✓3. Allow teams to fire at a bearing. Draw this line on the display (Use game space not canvas space)
     ✓3. Render the bearing/line fired using the canvas game renderer.
-    3. Make shot only appear from last fired team, or even only until next team moves.
-        (or fade it to another colour?)
-    3. Make shot stay from old position.
-    
+    ✓3. Make shot only appear from last fired team, or even only until next team moves.
+    3. Make shot stay from old position. - requires two vectors...
+     
 3. Publish as static webpage to somewhere
 3. Set game parameters from querystring if present (allows saving/sharing settings)
 3. Fix bug - all teams say "1" on canvas.
@@ -52,6 +51,8 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 npm install
 ### Run the app
 npm start
+### Rebuild the Bundle js file
+./bundleUp.sh
 
 ##Resources
 A good guide to [reading grid squares and grid references from Ordnance Survey](https://getoutside.ordnancesurvey.co.uk/guides/beginners-guide-to-grid-references/)
