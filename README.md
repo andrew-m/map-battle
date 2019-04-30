@@ -23,13 +23,13 @@ When playing Mark's map reading tank battle game on paper maps with physical com
 ✓3. Allow teams to fire at a bearing. Draw this line on the display (Use game space not canvas space)
     ✓3. Render the bearing/line fired using the canvas game renderer.
     ✓3. Make shot only appear from last fired team, or even only until next team moves.
-    3. Make shot stay from old position. - requires two vectors...
+    NA 3. Make shot stay from old position. - requires two vectors... Doesn't display on next turn anyway now.
      
 3. Publish as static webpage to somewhere
 3. Set game parameters from querystring if present (allows saving/sharing settings)
 3. Fix bug - all teams say "1" on canvas.
-3. Style to make canvas take up more screen space.
-3. Style movement buttons into square for touchscreens
+3. Style to make canvas take up more screen space. - NO Style to make fit on screen.
+3. Style movement buttons into square for touchscreenst
 3. Style with media Queries to work on mobile with efficient use of screen space.
     viewport stuff - https://stackoverflow.com/questions/20590239/maintain-aspect-ratio-of-div-but-fill-screen-width-and-height-in-css
     Landscape or portrait

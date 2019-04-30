@@ -1,2 +1,16 @@
-#canvas { width: 70%}
-body { background-color: #90bf90; }
+#canvas { height: 90%}
+
+body {
+    background-color: #90bf90;
+    font-size: xx-large;
+}
+
+.setup {
+    /*background-color: #ff00ff;*/
+    width: 80%;
+    margin: auto;
+}
+input {
+    height: 2em;
+    font-size: xx-large;
+}
