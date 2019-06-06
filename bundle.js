@@ -414,7 +414,8 @@ function setupTeams(doc, gridWidth, gridHeight) {
     doc.getElementById("add-btn").onclick = () => {
         var x = parseInt(doc.getElementById("x-txt").value, 10)
         var y = parseInt(doc.getElementById("y-txt").value, 10)
-        newBlobArray.push(new Blob(x, y, 1, getColour()))
+        var nextNumber = newBlobArray.reduce((max, bl) => bl.number > max ? bl.number : max, 0) + 1
+        newBlobArray.push(new Blob(x, y, nextNumber, getColour()))
     }
 
     doc.getElementById("start-btn").onclick = () => {
